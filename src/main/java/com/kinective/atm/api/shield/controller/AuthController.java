@@ -1,0 +1,38 @@
+package com.kinective.atm.api.shield.controller;
+
+import com.kinective.atm.api.shield.jwt.response.model.JwtResponse;
+import com.kinective.atm.api.shield.request.model.LoginRequest;
+import com.kinective.atm.api.shield.security.JwtTokenProvider;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/authorize")
+public class AuthController {
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    @Operation(summary = "This api is used to get the JWT token if user found in System",
+            description = "it returns the JWT token")
+    @ApiResponse(responseCode = "200", description = "Is Successfully returns the JWT token")
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        String jwt = jwtTokenProvider.generateToken(authentication);
+        return ResponseEntity.ok(new JwtResponse(jwt));
+    }
+}
