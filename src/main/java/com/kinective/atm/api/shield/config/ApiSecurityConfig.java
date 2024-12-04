@@ -23,28 +23,28 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class ApiSecurityConfig {
 
     @Autowired
-    private final JwtTokenProvider jwtTokenProvider;
+    private  JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    private final JwtUserDetailsService jwtUserService;
+    private  JwtUserDetailsService jwtUserService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-            http
-                    .csrf(csrf -> csrf.disable())
-                    .authorizeHttpRequests(authorize -> authorize
-                            .requestMatchers("/api/authorize/**").permitAll()
-                            .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                            .requestMatchers(HttpMethod.GET).permitAll()
-                            .requestMatchers("/api/user/**").hasRole("ADMIN")
-                            .requestMatchers("/atm/device/**").hasRole("USER")
-                            .requestMatchers("/failures/**").authenticated()
-                            .requestMatchers("/log/failure/**").authenticated()
-                            .requestMatchers("/transactions/**").authenticated()
-                            .requestMatchers("/recordings/**").hasRole("ADMIN")
-                            .anyRequest().authenticated()
-                    )
-                    .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, jwtUserService), UsernamePasswordAuthenticationFilter.class);
+        http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/api/authorize/**").permitAll()
+                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/v2/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
+                        .requestMatchers(HttpMethod.GET).permitAll()
+                        .requestMatchers("/api/user/**").hasRole("ADMIN")
+                        .requestMatchers("/atm/device/**").hasRole("USER")
+                        .requestMatchers("/failures/**").authenticated()
+                        .requestMatchers("/log/failure/**").authenticated()
+                        .requestMatchers("/transactions/**").authenticated()
+                        .requestMatchers("/recordings/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
+                )
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, jwtUserService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
