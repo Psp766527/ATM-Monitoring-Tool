@@ -85,6 +85,17 @@
             <artifactId>swagger-annotations</artifactId>
             <version>2.2.23</version>
         </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.6.14</version> <!-- Use the latest version -->
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-data-rest</artifactId>
+            <version>1.6.14</version> <!-- Optional, if using Spring Data REST -->
+        </dependency>
+
 
     </dependencies>
 
