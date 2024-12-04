@@ -23,10 +23,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class ApiSecurityConfig {
 
     @Autowired
-    private final JwtTokenProvider jwtTokenProvider;
+    private  JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    private final JwtUserDetailsService jwtUserService;
+    private  JwtUserDetailsService jwtUserService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
