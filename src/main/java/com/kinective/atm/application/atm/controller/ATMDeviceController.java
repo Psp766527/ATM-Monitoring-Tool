@@ -6,6 +6,7 @@ import com.kinective.atm.domain.entities.atmDevice.ATMDevice;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,12 +16,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/atm//device")
 public class ATMDeviceController {
 
+    private static final String name ="Pradeep Kushwah";
+
     @Autowired
     private final ATMDeviceService atmDeviceService;
+
+    public ATMDeviceController(ATMDeviceService atmDeviceService) {
+        this.atmDeviceService = atmDeviceService;
+    }
 
     @Operation(summary = "it is for fetching all the ATM Devices",
             description = "if ATM devices found in then returns it ")
